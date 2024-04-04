@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'shop_screen.dart';
-import 'register_screen.dart';
 
-
-class HomeScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Авторизація', style: TextStyle(color: Colors.grey)),
+        title: Text('Реєстрація'),
         backgroundColor: Colors.green[200], // Сіро-зелений колір для AppBar
       ),
       body: Container(
@@ -19,7 +16,15 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             TextField(
               decoration: InputDecoration(
-                labelText: 'Логін',
+                labelText: 'Ім`я користувача',
+                fillColor: Colors.white,
+                filled: true,
+              ),
+            ),
+            SizedBox(height: 20.0),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Електронна пошта',
                 fillColor: Colors.white,
                 filled: true,
               ),
@@ -34,34 +39,25 @@ class HomeScreen extends StatelessWidget {
               obscureText: true,
             ),
             SizedBox(height: 20.0),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Підтвердження паролю',
+                fillColor: Colors.white,
+                filled: true,
+              ),
+              obscureText: true,
+            ),
+            SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                // Дії, які виконуються при натисканні кнопки
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ShopPage()), // Перехід на сторінку магазину
-                );
+                // Дії, які виконуються при натисканні кнопки "Зареєструватися"
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green[200], // Світло-зелений колір для кнопки
               ),
               child: Text(
-                'Вхід',
+                'Зареєструватися',
                 style: TextStyle(color: Colors.grey), // Сірий колір для тексту кнопки
-              ),
-            ),
-            SizedBox(height: 10.0),
-            GestureDetector(
-              onTap: () {
-                // Дії, які виконуються при натисканні посилання на реєстрацію
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
-              },
-              child: Text(
-                'Ще не зареєстровані? Зареєструватися',
-                style: TextStyle(color: Colors.blue),
               ),
             ),
           ],
