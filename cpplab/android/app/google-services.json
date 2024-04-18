@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "691794038265",
+    "firebase_url": "https://cpplab-v03-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "cpplab-v03",
+    "storage_bucket": "cpplab-v03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691794038265:android:870ddefd5f54ea99b60128",
+        "android_client_info": {
+          "package_name": "com.example.cpplab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1N6dkL1NKxAuyzKz1NGf8cDtar1NecA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
