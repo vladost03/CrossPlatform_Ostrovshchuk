@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'shop_screen.dart';
 import 'register_screen.dart';
-
+import 'package:cpplab/functions/login.dart';
 
 class HomeScreen extends StatelessWidget {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,14 +21,16 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
-                labelText: 'Логін',
+                labelText: 'Електронна пошта',
                 fillColor: Colors.white,
                 filled: true,
               ),
             ),
             SizedBox(height: 20.0),
             TextField(
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Пароль',
                 fillColor: Colors.white,
@@ -35,12 +40,28 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: () {
-                // Дії, які виконуються при натисканні кнопки
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ShopPage()), // Перехід на сторінку магазину
+              onPressed: () async {
+                // Виклик методу для перевірки облікових даних
+                bool isAuthenticated = await LoginService().checkCredentials(
+                  _emailController.text,
+                  _passwordController.text,
                 );
+
+                if (isAuthenticated) {
+                  // Перехід на сторінку магазину, якщо користувач вдало авторизований
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => ShopScreen()),
+                  );
+                } else {
+                  // Виведення повідомлення про помилку, якщо авторизація не вдалася
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Неправильна електронна пошта або пароль'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green[200], // Світло-зелений колір для кнопки
@@ -53,10 +74,10 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 10.0),
             GestureDetector(
               onTap: () {
-                // Дії, які виконуються при натисканні посилання на реєстрацію
+                // Перехід на сторінку реєстрації при натисканні посилання
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
                 );
               },
               child: Text(
