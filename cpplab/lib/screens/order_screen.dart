@@ -11,6 +11,7 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   String _paymentMethod = ''; // Змінна для збереження обраного способу оплати
   String _deliveryMethod = ''; // Змінна для збереження обраного способу доставки
+  //Змінні для контролю введених реквізитів картки
   TextEditingController _cardNumberController = TextEditingController();
   TextEditingController _expiryDateController = TextEditingController();
   TextEditingController _cvvController = TextEditingController();
@@ -20,34 +21,35 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchRandomAddresses();
+    _fetchRandomAddresses(); // Виклик методу для отримання випадкових адрес самовивозу
   }
 
+  // Метод для отримання випадкових адрес самовивозу
   Future<void> _fetchRandomAddresses() async {
     try {
-      final response = await http.get(Uri.parse('https://randomuser.me/api/?results=6'));
+      final response = await http.get(Uri.parse('https://randomuser.me/api/?results=6')); // Запит на отримання даних
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body); // Декодування отриманих даних у форматі JSON
         final List<dynamic> results = data['results'];
         setState(() {
           _pickupAddresses = results.map((result) {
             final city = result['location']['city'];
             final street = result['location']['street']['name'];
             final streetNumber = result['location']['street']['number'];
-            return '$city, $street, $streetNumber';
+            return '$city, $street, $streetNumber'; // Створення адреси у форматі: місто, вулиця, номер будинку
           }).toList();
         });
       } else {
-        throw Exception('Failed to load addresses');
+        throw Exception('Failed to load addresses'); // Якщо статус відповіді не 200, викинути виняток
       }
     } catch (error) {
-      print('Error: $error');
+      print('Error: $error'); // Вивести помилку у випадку, якщо її виникнення
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double total = CartService().calculateTotal();
+    double total = CartService().calculateTotal(); // Обчислення загальної суми товарів у кошику
 
     return Scaffold(
       appBar: AppBar(
@@ -57,6 +59,7 @@ class _OrderScreenState extends State<OrderScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Відображення загальної суми до сплати
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Row(
@@ -73,6 +76,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ],
               ),
             ),
+            // Вибір способу оплати
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
@@ -81,6 +85,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ),
             SizedBox(height: 20.0),
+            // Пункти вибору способу оплати
             ListTile(
               title: Text('Картка'),
               leading: Radio(
@@ -105,6 +110,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
               ),
             ),
+            // Введення реквізитів картки, якщо обрано спосіб оплати "Картка"
             if (_paymentMethod == 'card') ...[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -131,6 +137,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
             ],
+            // Вибір способу доставки
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
@@ -139,6 +146,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ),
             SizedBox(height: 20.0),
+            // Пункти вибору способу доставки
             ListTile(
               title: Text('Самовивіз'),
               leading: Radio(
@@ -163,7 +171,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
               ),
             ),
-            if (_deliveryMethod == 'home_delivery') // Відображення текстового поля для адреси, якщо вибрано доставку до дверей
+            // Введення адреси доставки, якщо обрано спосіб доставки "Доставка до дверей"
+            if (_deliveryMethod == 'home_delivery')
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: TextField(
@@ -171,7 +180,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   decoration: InputDecoration(labelText: 'Адреса доставки'),
                 ),
               ),
-            if (_deliveryMethod == 'pickup') // Відображення випадаючого меню зі згенерованими адресами для самовивозу
+            // Вибір адреси для самовивозу, якщо обрано спосіб доставки "Самовивіз"
+            if (_deliveryMethod == 'pickup')
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: DropdownButtonFormField<String>(

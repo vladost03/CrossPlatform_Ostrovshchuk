@@ -8,20 +8,20 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final CartService _cartService = CartService();
+  final CartService _cartService = CartService(); // Створення об'єкту для роботи з кошиком
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> cartItems = _cartService.cartItems;
+    List<Map<String, dynamic>> cartItems = _cartService.cartItems; // Отримання елементів кошика
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Кошик'),
-        backgroundColor: Colors.green[200],
+        title: Text('Кошик', style: TextStyle(color: Colors.grey)),
+        backgroundColor: Colors.green[200], // Встановлення колірної схеми для заголовку
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
-        color: Colors.grey[200],
+        color: Colors.grey[200], // Встановлення колірної схеми для тіла екрану
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -30,13 +30,14 @@ class _CartScreenState extends State<CartScreen> {
               child: ListView.builder(
                 itemCount: cartItems.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return _buildCartItemCard(cartItems[index]);
+                  return _buildCartItemCard(cartItems[index]); // Побудова карточки товару у кошику
                 },
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                // Кнопка для повернення до списку товарів
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -49,6 +50,7 @@ class _CartScreenState extends State<CartScreen> {
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
+                // Кнопка для очищення кошика
                 ElevatedButton(
                   onPressed: () {
                     _cartService.clearCart();
@@ -62,6 +64,7 @@ class _CartScreenState extends State<CartScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+                // Кнопка для переходу до екрану оформлення замовлення
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -85,37 +88,38 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  // Метод для побудови карточки товару у кошику
   Widget _buildCartItemCard(Map<String, dynamic> product) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListTile(
-        title: Text(product['name']),
-        subtitle: Text('Ціна: ${product['price']}'),
+        title: Text(product['name']), // Назва товару
+        subtitle: Text('Ціна: ${product['price']}'), // Ціна товару
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             IconButton(
               onPressed: () {
-                // Your code to decrease item quantity
+                // Ваш код для зменшення кількості товару
               },
               icon: Icon(Icons.remove),
             ),
             Text(
-              '1', // Placeholder for item quantity
+              '1', // Заглушка для кількості товару
               style: TextStyle(fontSize: 18.0),
             ),
             IconButton(
               onPressed: () {
-                // Your code to increase item quantity
+                // Ваш код для збільшення кількості товару
               },
               icon: Icon(Icons.add),
             ),
             IconButton(
               onPressed: () {
-                _cartService.removeFromCart(product);
+                _cartService.removeFromCart(product); // Видалення товару з кошика
                 setState(() {});
               },
-              icon: Icon(Icons.delete),
+              icon: Icon(Icons.delete), // Іконка для видалення товару з кошика
             ),
           ],
         ),

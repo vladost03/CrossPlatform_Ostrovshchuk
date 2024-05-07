@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
     <application
         android:label="cpplab"
         android:name="${applicationName}"

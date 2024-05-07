@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'cart_screen.dart';
-import 'home_screen.dart';
-import 'package:cpplab/functions/catalogue.dart';
-import 'package:cpplab/functions/cart.dart';
+import 'cart_screen.dart'; // Імпорт екрану кошика
+import 'home_screen.dart'; // Імпорт домашнього екрану
+import 'package:cpplab/functions/catalogue.dart'; // Імпорт методів каталогу
+import 'package:cpplab/functions/cart.dart'; // Імпорт методів кошика
 
 class ShopScreen extends StatefulWidget {
   @override
@@ -39,21 +39,22 @@ class _ShopScreenState extends State<ShopScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Магазин'),
+        title: Text('Магазин', style: TextStyle(color: Colors.grey)), // Назва магазину
+        backgroundColor: Colors.green[200], // Зелений колір AppBar
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_cart), // Іконка кошика
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CartScreen()),
+                MaterialPageRoute(builder: (context) => CartScreen()), // Перехід на екран кошика
               );
             },
           ),
           IconButton(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle), // Іконка облікового запису
             onPressed: () {
-              _showAccountMenu(context);
+              _showAccountMenu(context); // Відображення попап-меню облікового запису
             },
           ),
         ],
@@ -87,7 +88,7 @@ class _ShopScreenState extends State<ShopScreen> {
           }).toList(),
           onChanged: (String? newValue) {
             setState(() {
-              _selectedCategory = newValue!;
+              _selectedCategory = newValue!; // Оновлення вибраної категорії
             });
           },
         ),
@@ -104,16 +105,16 @@ class _ShopScreenState extends State<ShopScreen> {
           : CatalogueService().getProductsByCategory(_selectedCategory),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator()); // Відображення крутильного індикатора під час завантаження
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Error: ${snapshot.error}')); // Виведення повідомлення про помилку
         } else {
-          List<Map<String, dynamic>> products = snapshot.data!;
+          List<Map<String, dynamic>> products = snapshot.data!; // Отримання списку продуктів
           return ListView.builder(
             scrollDirection: Axis.horizontal, // Прокрутка в горизонтальному напрямку
             itemCount: products.length,
             itemBuilder: (context, index) {
-              return _buildProductCard(products[index]);
+              return _buildProductCard(products[index]); // Побудова карточки для кожного продукту
             },
           );
         }
@@ -125,7 +126,7 @@ class _ShopScreenState extends State<ShopScreen> {
   Widget _buildProductCard(Map<String, dynamic> product) {
     return GestureDetector(
       onTap: () {
-        _showProductInfoPopup(context, product);
+        _showProductInfoPopup(context, product); // Відображення попап-меню з інформацією про продукт
       },
       child: Container(
         margin: EdgeInsets.all(8.0),
@@ -201,7 +202,12 @@ class _ShopScreenState extends State<ShopScreen> {
                   CartService().addToCart(product); // Додавання продукту до кошика
                   Navigator.pop(context); // Закриття попап-меню
                 },
-                child: Text('Додати до кошика'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[200],
+                ),
+                child: Text('Додати до кошика',
+                  style: TextStyle(color: Colors.grey),),
+
               )
             else
               Text('Товар відсутній'),
@@ -209,7 +215,11 @@ class _ShopScreenState extends State<ShopScreen> {
               onPressed: () {
                 Navigator.pop(context); // Закриття попап-меню
               },
-              child: Text('Повернутись до покупок'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green[200],
+              ),
+              child: Text('Повернутись до покупок',
+                style: TextStyle(color: Colors.grey),),
             ),
           ],
         );
@@ -228,8 +238,8 @@ class _ShopScreenState extends State<ShopScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Логін: $_username'),
-              Text('Електронна пошта: ${_currentUser.email}'),
+              Text('Ім\'я користувача: $_username'), // Відображення імені користувача
+              Text('Електронна пошта: ${_currentUser.email}'), // Відображення електронної пошти користувача
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
@@ -239,7 +249,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     MaterialPageRoute(builder: (context) => HomeScreen()), // Перехід на домашню сторінку
                   );
                 },
-                child: Text('Log out'),
+                child: Text('Log out'), // Кнопка для виходу з облікового запису
               ),
             ],
           ),

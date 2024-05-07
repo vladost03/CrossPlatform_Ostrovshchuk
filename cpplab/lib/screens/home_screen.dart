@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'shop_screen.dart';
-import 'register_screen.dart';
-import 'package:cpplab/functions/login.dart';
+import 'shop_screen.dart'; // Імпорт сторінки магазину
+import 'register_screen.dart'; // Імпорт сторінки реєстрації
+import 'package:cpplab/functions/login.dart'; // Імпорт методу для авторизації
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Авторизація', style: TextStyle(color: Colors.grey)),
+        title: Text('Авторизація', style: TextStyle(color: Colors.grey)), // Назва AppBar
         backgroundColor: Colors.green[200], // Сіро-зелений колір для AppBar
       ),
       body: Container(
@@ -36,25 +36,25 @@ class HomeScreen extends StatelessWidget {
                 fillColor: Colors.white,
                 filled: true,
               ),
-              obscureText: true,
+              obscureText: true, // Пароль прихований
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () async {
-                // Виклик методу для перевірки облікових даних
+                // Обробник події натискання кнопки "Вхід"
                 bool isAuthenticated = await LoginService().checkCredentials(
                   _emailController.text,
                   _passwordController.text,
-                );
+                ); // Перевірка облікових даних
 
                 if (isAuthenticated) {
-                  // Перехід на сторінку магазину, якщо користувач вдало авторизований
+                  // Якщо користувач вдало авторизований, переходимо на сторінку магазину
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => ShopScreen()),
                   );
                 } else {
-                  // Виведення повідомлення про помилку, якщо авторизація не вдалася
+                  // Якщо авторизація не вдалася, виводимо повідомлення про помилку
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Неправильна електронна пошта або пароль'),
@@ -74,15 +74,15 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 10.0),
             GestureDetector(
               onTap: () {
-                // Перехід на сторінку реєстрації при натисканні посилання
+                // Обробник події натискання тексту "Ще не зареєстровані? Зареєструватися"
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                  MaterialPageRoute(builder: (context) => RegisterScreen()), // Перехід на сторінку реєстрації
                 );
               },
               child: Text(
                 'Ще не зареєстровані? Зареєструватися',
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: Colors.blue), // Синій колір для тексту
               ),
             ),
           ],

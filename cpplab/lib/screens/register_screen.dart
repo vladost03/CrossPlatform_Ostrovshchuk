@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cpplab/functions/register.dart';
-import 'shop_screen.dart';
+import 'package:cpplab/functions/register.dart'; // Імпорт методу для реєстрації користувача
+import 'shop_screen.dart'; // Імпорт сторінки магазину
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -18,6 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _passwordErrorText = '';
   String _confirmPasswordErrorText = '';
 
+  // Метод для перевірки правильності введених полів та реєстрації користувача
   void _validateFields() async {
     String username = _usernameController.text;
     String email = _emailController.text;
@@ -80,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 labelText: 'Ім\'я користувача',
                 fillColor: Colors.white,
                 filled: true,
-                errorText: _usernameErrorText,
+                errorText: _usernameErrorText, // Відображення тексту помилки для ім'я користувача
               ),
             ),
             SizedBox(height: 20.0),
@@ -90,17 +91,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 labelText: 'Електронна пошта',
                 fillColor: Colors.white,
                 filled: true,
-                errorText: _emailErrorText,
+                errorText: _emailErrorText, // Відображення тексту помилки для електронної пошти
               ),
             ),
             SizedBox(height: 20.0),
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
-                labelText: 'Пароль',
+                labelText: 'Пароль (мінімум 6 сиволів)',
                 fillColor: Colors.white,
                 filled: true,
-                errorText: _passwordErrorText,
+                errorText: _passwordErrorText, // Відображення тексту помилки для пароля
               ),
               obscureText: true,
             ),
@@ -111,21 +112,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 labelText: 'Підтвердження паролю',
                 fillColor: Colors.white,
                 filled: true,
-                errorText: _confirmPasswordErrorText,
+                errorText: _confirmPasswordErrorText, // Відображення тексту помилки для підтвердження паролю
               ),
               obscureText: true,
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                _validateFields();
+                _validateFields(); // Виклик методу для перевірки полів та реєстрації користувача
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green[200], // Світло-зелений колір для кнопки
               ),
               child: Text(
                 'Зареєструватися',
-                style: TextStyle(color: Colors.white), // Сірий колір для тексту кнопки
+                style: TextStyle(color: Colors.white), // Білий колір для тексту кнопки
               ),
             ),
           ],
